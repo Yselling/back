@@ -9,7 +9,7 @@ class OrderProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'amount' => ['required', 'integer'],
+            'quantity' => ['required', 'integer'],
             'order_id' => ['required', 'integer'],
             'product_id' => ['required', 'integer'],
         ];

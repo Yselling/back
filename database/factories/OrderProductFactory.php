@@ -13,7 +13,7 @@ class OrderProductFactory extends Factory
     public function definition(): array
     {
         return [
-            'amount' => $this->faker->randomNumber(),
+            'quantity' => $this->faker->randomNumber(),
             'order_id' => $this->faker->randomNumber(),
             'product_id' => $this->faker->randomNumber(),
             'created_at' => Carbon::now(),
