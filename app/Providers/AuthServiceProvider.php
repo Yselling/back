@@ -7,12 +7,14 @@ use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Gender;
 use App\Models\Media;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\Role;
 use App\Policies\CartPolicy;
 use App\Policies\CategoryPolicy;
 use App\Policies\GenderPolicy;
 use App\Policies\MediaPolicy;
+use App\Policies\OrderPolicy;
 use App\Policies\ProductPolicy;
 use App\Policies\RolePolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -32,6 +34,7 @@ class AuthServiceProvider extends ServiceProvider
         Product::class => ProductPolicy::class,
         Media::class => MediaPolicy::class,
         Cart::class => CartPolicy::class,
+        Order::class => OrderPolicy::class,
     ];
 
     /**
