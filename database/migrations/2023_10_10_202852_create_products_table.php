@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->string('type');
             $table->float('price');
             $table->integer('amount');
-            $table->foreignIdFor(Category::class);
+            $table->foreignIdFor(Category::class, "category_id");
             $table->timestamps();
         });
     }
