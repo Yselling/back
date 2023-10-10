@@ -3,11 +3,13 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Gender;
 use App\Models\Media;
 use App\Models\Product;
 use App\Models\Role;
+use App\Policies\CartPolicy;
 use App\Policies\CategoryPolicy;
 use App\Policies\GenderPolicy;
 use App\Policies\MediaPolicy;
@@ -29,6 +31,7 @@ class AuthServiceProvider extends ServiceProvider
         Category::class => CategoryPolicy::class,
         Product::class => ProductPolicy::class,
         Media::class => MediaPolicy::class,
+        Cart::class => CartPolicy::class,
     ];
 
     /**
