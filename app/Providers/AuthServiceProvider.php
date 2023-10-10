@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+use App\Models\Category;
 use App\Models\Gender;
 use App\Models\Role;
+use App\Policies\CategoryPolicy;
 use App\Policies\GenderPolicy;
 use App\Policies\RolePolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -20,6 +22,7 @@ class AuthServiceProvider extends ServiceProvider
         //
         Gender::class => GenderPolicy::class,
         Role::class => RolePolicy::class,
+        Category::class => CategoryPolicy::class,
     ];
 
     /**
