@@ -71,7 +71,7 @@ class GenderSeeder extends Seeder
 
         foreach ($genders as $genre)
         {
-            Gender::factory(100)->create([
+            Gender::create([
                 'name' => $genre,
             ]);
         }

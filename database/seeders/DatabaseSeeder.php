@@ -18,21 +18,9 @@ class DatabaseSeeder extends Seeder
 
         $this->call(DevSeeder::class);
         $this->call(GenderSeeder::class);
+        $this->call(RoleSeeder::class);
 
 
-        // Create 100 gender records
-        Gender::factory(100)->create();
-
-        // Create 2 roles
-        $roles = ['admin', 'user'];
-        foreach ($roles as $role) {
-            Role::factory()->create([
-                'name' => $role,
-            ]);
-        }
-
-        // Create 10 categories
-        Category::factory(10)->create();
 
     }
 }

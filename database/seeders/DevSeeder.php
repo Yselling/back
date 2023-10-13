@@ -23,6 +23,9 @@ class DevSeeder extends Seeder
             $user->cart()->save(Cart::factory()->make());
         });
 
+        // Create 10 categories
+        Category::factory(10)->create();
+
         // Create 100 products, and each product belongs to a category, and has 1-5 images
         Product::factory(100)->create()->each(function ($product) {
             $product->category()->associate(Category::inRandomOrder()->first())->save();
