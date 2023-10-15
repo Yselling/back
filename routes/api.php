@@ -23,6 +23,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // Auth routes
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('/me', [AuthController::class, 'me'])->middleware('auth:sanctum');
 
 // Gender routes
 //Route::group(['prefix' => 'genders', 'middleware' => 'auth:sanctum'], function () {

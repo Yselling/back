@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\User;
 use Hash;
 use Illuminate\Http\JsonResponse;
@@ -41,6 +42,12 @@ class AuthController extends Controller
                 'role_id' => 2,
                 'password' => Hash::make($request->input('password')),
                 'email_verified_at' => now(),
+            ]
+        );
+
+        Cart::create(
+            [
+                'user_id' => $user->id,
             ]
         );
 
@@ -86,5 +93,17 @@ class AuthController extends Controller
             'access_token' => $token,
             'token_type' => 'Bearer',
         ]);
+    }
+
+    public function me(Request $request) : JsonResponse
+    {
+        $user = User::where('id', $request->user()->id)
+            ->with('gender', 'role', 'cart')
+            ->first();
+
+        if ($user) {
+            return response()->json($user);
+        }
+        return response()->json(['error' => __('lang.unauthorized')], 403);
     }
 }
