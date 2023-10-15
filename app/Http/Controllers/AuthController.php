@@ -51,4 +51,40 @@ class AuthController extends Controller
             'token_type' => 'Bearer',
         ]);
     }
+
+    public function login(Request $request) : JsonResponse
+    {
+        $messages = [
+            'email.required' => __('lang.email.required'),
+            'email.email' => __('lang.email.email'),
+            'password.required' => __('lang.password.required'),
+            'password.min' => __('lang.password.min'),
+        ];
+
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required|min:8',
+        ], $messages);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        $user = User::where('email', $request->input('email'))->first();
+
+        if (!$user || !Hash::check($request->input('password'), $user->password)) {
+            return response()->json([
+                'message' => __('lang.login.bad_credentials'),
+            ], 401);
+        }
+
+        $token = $user->createToken('auth_token')->plainTextToken;
+        $user->remember_token = $token;
+        $user->save();
+
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'Bearer',
+        ]);
+    }
 }
