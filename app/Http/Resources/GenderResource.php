@@ -2,10 +2,11 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Gender;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/** @mixin \App\Models\Gender */
+/** @mixin Gender */
 class GenderResource extends JsonResource
 {
     public function toArray(Request $request): array

@@ -5,14 +5,26 @@ namespace App\Http\Controllers;
 use App\Http\Requests\GenderRequest;
 use App\Http\Resources\GenderResource;
 use App\Models\Gender;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class GenderController extends Controller
 {
-    public function index()
-    {
-        $this->authorize('viewAny', Gender::class);
 
-        return GenderResource::collection(Gender::all());
+    public function index(Request $request)
+    {
+        $cacheKey = 'genders-index';
+
+        $data = Cache::remember($cacheKey, now()->addHour(), function () {
+            return GenderResource::collection(Gender::all());
+        });
+
+        return response()->json([
+            'data' => $data,
+            'count' => count($data),
+            'message' => 'Success',
+            'status' => 200,
+        ]);
     }
 
     public function store(GenderRequest $request)
