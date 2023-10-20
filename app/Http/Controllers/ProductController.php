@@ -5,14 +5,25 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Cache;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(): JsonResponse
     {
-        $this->authorize('viewAny', Product::class);
+        $cacheKey = 'products-index';
 
-        return ProductResource::collection(Product::all());
+        $data = Cache::remember($cacheKey, now()->addHour(), function () {
+            return ProductResource::collection(Product::all());
+        });
+
+        return response()->json([
+            'data' => $data,
+            'count' => count($data),
+            'message' => 'Success',
+            'status' => 200,
+        ]);
     }
 
     public function store(ProductRequest $request)
