@@ -18,6 +18,9 @@ class DevSeeder extends Seeder
      */
     public function run(): void
     {
+        // Create a 100 of products
+        Product::factory(100)->create();
+
         // Create 100 users, and their carts
         User::factory(100)->create()->each(function ($user) {
             $user->cart()->save(Cart::factory()->make());
@@ -32,17 +35,27 @@ class DevSeeder extends Seeder
             $product->medias()->saveMany(Media::factory()->count(rand(1, 5))->make());
         });
 
+
+
         // For each cart, create 1-10 Order records, but only one Order should have a status of 'clear', and the rest should be 'paid'
-        Cart::all()->each(function ($cart) {
-            $cart->orders()->saveMany(Order::factory()->count(rand(1, 10))->make());
-            $cart->orders()->first()->update([
-                'state' => 'clear',
-            ]);
+        User::all()->each(function ($user) {
+            $user->orders()->saveMany(Order::factory()->count(rand(1, 10))->make());
         });
 
         // For each Order, create 1-10 OrderProduct records
         Order::all()->each(function ($order) {
-            $order->orderProducts()->saveMany(OrderProduct::factory()->count(rand(1, 10))->make());
+            $order->products()->attach(
+                Product::inRandomOrder()->first(),
+                ['amount' => rand(1, 10)]
+            );
+            $order->products()->attach(
+                Product::inRandomOrder()->first(),
+                ['amount' => rand(1, 10)]
+            );
+            $order->products()->attach(
+                Product::inRandomOrder()->first(),
+                ['amount' => rand(1, 10)]
+            );
         });
     }
 }

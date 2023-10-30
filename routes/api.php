@@ -41,14 +41,17 @@ Route::group(['prefix' => 'products'], function () {
     Route::delete('/{product}', [ProductController::class, 'destroy']);
 });
 
-// // cart routes
-// Route::middleware('auth:sanctum')->group(['prefix' => 'cart'], function () {
-//     Route::get('/', [ProductController::class, 'index']);
-//     Route::post('/', [ProductController::class, 'store']);
-//     Route::get('/{product}', [ProductController::class, 'show']);
-//     Route::put('/{product}', [ProductController::class, 'update']);
-//     Route::delete('/{product}', [ProductController::class, 'destroy']);
-// });
+// voir son panier
+// ajouter un/plusieurs nombre d'un article au panier
+// supprimer un article du panier
+// vider son panier
+// modifier le nombre pour un article dans panier
+// modifier le profil user
+// supprimer son compte
+// voir toutes les enchères en cours
+// participer à l'enchère
+// voir les participations à l enchère
+// voir ses commandes passées
 
 
 
