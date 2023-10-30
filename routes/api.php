@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\GenderController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
@@ -34,28 +35,24 @@ Route::group(['prefix' => 'genders'], function () {
 
 // Product routes
 Route::group(['prefix' => 'products'], function () {
-    Route::get('/', [ProductController::class, 'index']);
-    Route::post('/', [ProductController::class, 'store']);
-    Route::get('/{product}', [ProductController::class, 'show']);
-    Route::put('/{product}', [ProductController::class, 'update']);
-    Route::delete('/{product}', [ProductController::class, 'destroy']);
+    Route::get('/', [ProductController::class, 'index'])->name('products.index');
+    Route::post('/', [ProductController::class, 'store'])->name('products.store');
+    Route::get('/{product}', [ProductController::class, 'show'])->name('products.show');
+    Route::put('/{product}', [ProductController::class, 'update'])->name('products.update');
+    Route::delete('/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
 });
 
-// cart routes
-// Route::middleware('auth:sanctum')->group(['prefix' => 'cart'], function () {
-//     Route::get('/', [ProductController::class, 'index']);
-//     Route::post('/', [ProductController::class, 'store']);
-//     Route::get('/{product}', [ProductController::class, 'show']);
-//     Route::put('/{product}', [ProductController::class, 'update']);
-//     Route::delete('/{product}', [ProductController::class, 'destroy']);
-// });
 
-// CART
-// voir son panier
-// ajouter un/plusieurs nombre d'un article au panier
-// supprimer un article du panier
-// vider son panier
-// modifier le nombre pour un article dans panier
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::group(['prefix' => 'carts'], function () {
+        Route::get('/my-cart', [CartController::class, 'showMyCart'])->name('carts.show-my-cart');
+        Route::post('/add-product', [CartController::class, 'addProductToCart'])->name('carts.add-product');
+        Route::post('/update-product-amount', [CartController::class, 'updateProductAmount'])->name('carts.update-product-amount');
+        Route::post('/decrement-product', [CartController::class, 'decrementProduct'])->name('carts.decrement-product');
+        Route::post('/remove-product', [CartController::class, 'removeProduct'])->name('carts.remove-product');
+        Route::delete('/empty', [CartController::class, 'empty'])->name('carts.empty');
+    });
+});
 
 // USER
 // modifier le profil user

@@ -18,20 +18,50 @@ class DevSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create a 100 of products
-        Product::factory(100)->create();
-
-        // Create 100 users, and their carts
-        User::factory(100)->create()->each(function ($user) {
-            $user->cart()->save(Cart::factory()->make());
-        });
-
         // Create 10 categories
         Category::factory(10)->create();
 
+        // Create a 100 of products
+        Product::factory(100)->create();
+
+        User::factory()->create([
+            'email' => 'user1@email.com',
+            'password' => bcrypt('password'),
+        ])->each(function ($user) {
+            $user->cart()->attach(
+                Product::inRandomOrder()->first(),
+                ['amount' => rand(1, 10)]
+            );
+            $user->cart()->attach(
+                Product::inRandomOrder()->first(),
+                ['amount' => rand(1, 10)]
+            );
+            $user->cart()->attach(
+                Product::inRandomOrder()->first(),
+                ['amount' => rand(1, 10)]
+            );
+        });
+
+        // Create 100 users, and their carts
+        User::factory(100)->create()->each(function ($user) {
+            $user->cart()->attach(
+                Product::inRandomOrder()->first(),
+                ['amount' => rand(1, 10)]
+            );
+            $user->cart()->attach(
+                Product::inRandomOrder()->first(),
+                ['amount' => rand(1, 10)]
+            );
+            $user->cart()->attach(
+                Product::inRandomOrder()->first(),
+                ['amount' => rand(1, 10)]
+            );
+        });
+
+
         // Create 100 products, and each product belongs to a category, and has 1-5 images
         Product::factory(100)->create()->each(function ($product) {
-            $product->category()->associate(Category::inRandomOrder()->first())->save();
+            $product->category()->associate(Category::inRandomOrder()->first());
             $product->medias()->saveMany(Media::factory()->count(rand(1, 5))->make());
         });
 

@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Order;
+use App\Models\Product;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
@@ -50,14 +52,14 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    /**
-     * Return the cart for this user.
-     * @return HasOne
-     */
-    public function cart(): HasOne
-    {
-        return $this->hasOne(Cart::class);
-    }
+    // /**
+    //  * Return the cart for this user.
+    //  * @return HasOne
+    //  */
+    // public function cart(): HasOne
+    // {
+    //     return $this->hasOne(Cart::class);
+    // }
 
     public function gender(): BelongsTo
     {
@@ -73,4 +75,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Order::class);
     }
+
+    public function cart(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class, 'carts', 'user_id', 'product_id')->withPivot('amount');
+    }
+
 }
