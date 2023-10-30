@@ -2,9 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\User;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Cart extends Model
 {
@@ -12,13 +16,27 @@ class Cart extends Model
 
     protected $fillable = [
         'user_id',
+        'product_id',
+        'amount',
     ];
 
     /**
-     * Return the orders for this cart.
+     * Get the user that owns the Cart
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function orders(): HasMany
+    public function user(): BelongsTo
     {
-        return $this->hasMany(Order::class);
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the product that owns the Cart
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class);
     }
 }
