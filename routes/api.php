@@ -40,10 +40,7 @@ Route::post('/contact', [ContactController::class, 'store'])->name('contact.stor
 // Product routes
 Route::group(['prefix' => 'products'], function () {
     Route::get('/', [ProductController::class, 'index'])->name('products.index');
-    Route::post('/', [ProductController::class, 'store'])->name('products.store');
     Route::get('/{product}', [ProductController::class, 'show'])->name('products.show');
-    Route::put('/{product}', [ProductController::class, 'update'])->name('products.update');
-    Route::delete('/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
 });
 
 

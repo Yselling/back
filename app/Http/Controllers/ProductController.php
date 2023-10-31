@@ -36,13 +36,6 @@ class ProductController extends Controller
         ]);
     }
 
-    public function store(ProductRequest $request)
-    {
-        $this->authorize('create', Product::class);
-
-        return new ProductResource(Product::create($request->validated()));
-    }
-
     public function show(Product $product)
     {
         $product = $product->load('category');
@@ -50,23 +43,5 @@ class ProductController extends Controller
             'data' => $product,
             'status' => 200,
         ]);
-    }
-
-    public function update(ProductRequest $request, Product $product)
-    {
-        $this->authorize('update', $product);
-
-        $product->update($request->validated());
-
-        return new ProductResource($product);
-    }
-
-    public function destroy(Product $product)
-    {
-        $this->authorize('delete', $product);
-
-        $product->delete();
-
-        return response()->json();
     }
 }
