@@ -1,11 +1,12 @@
 <?php
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\GenderController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProductController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,9 @@ Route::group(['prefix' => 'genders'], function () {
     Route::get('/', [GenderController::class, 'index']);
     // add other crud
 });
+
+// contact
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
 // Product routes
 Route::group(['prefix' => 'products'], function () {
