@@ -45,9 +45,11 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
-        $this->authorize('view', $product);
-
-        return new ProductResource($product);
+        $product = $product->load('category');
+        return response()->json([
+            'data' => $product,
+            'status' => 200,
+        ]);
     }
 
     public function update(ProductRequest $request, Product $product)

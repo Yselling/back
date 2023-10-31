@@ -22,6 +22,15 @@ class Product extends Model
         "category_id"
     ];
 
+    protected $appends = [
+        'url',
+    ];
+
+    public function getUrlAttribute(): string
+    {
+        return route('products.show', $this);
+    }
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
