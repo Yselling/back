@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Product;
+
 return [
 
     /*
@@ -136,6 +138,9 @@ return [
             // 'users' => [
             //     'filterableAttributes'=> ['id', 'name', 'email'],
             // ],
+            Product::class => [
+                'filterableAttributes'=> ['category_id'],
+            ],
         ],
     ],
 

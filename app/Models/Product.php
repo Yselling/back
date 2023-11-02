@@ -25,6 +25,7 @@ class Product extends Model
         $array = [
             'name' => $this->name,
             'description' => $this->description,
+            'category_id' => $this->category_id,
         ];
 
         return $array;

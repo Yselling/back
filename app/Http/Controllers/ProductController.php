@@ -24,7 +24,8 @@ class ProductController extends Controller
         //     return Product::paginate($perPage, ['*'], 'page', $page);
         // });
 
-        $data = Product::search($request->input('search', ''))->paginate($perPage, '', intval($page));
+        $data = Product::search($request->input('search', ''))
+        ->whereIn('category_id', $request->input('categories', []))->paginate($perPage, '', intval($page));
         $data->load('category');
 
         return response()->json([

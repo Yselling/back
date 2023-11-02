@@ -40,7 +40,7 @@ Route::post('/contact', [ContactController::class, 'store'])->name('contact.stor
 
 // Product routes
 Route::group(['prefix' => 'products'], function () {
-    Route::get('/', [ProductController::class, 'index'])->name('products.index');
+    Route::post('/', [ProductController::class, 'index'])->name('products.index');
     Route::get('/{product}', [ProductController::class, 'show'])->name('products.show');
 });
 
