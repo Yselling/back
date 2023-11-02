@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 
 // Example Routes
-Route::view('/', 'dashboard');
+Route::view('/dashboard', 'dashboard');
 
 // Admin Routes<
 Route::get('/products', [AdmProductsController::class, 'index'])->name('adm.products.index');
