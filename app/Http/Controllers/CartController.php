@@ -16,6 +16,9 @@ class CartController extends Controller
 
         return response()->json([
             'cart' => $cart,
+            'total' => $cart->sum(function ($product) {
+                return $product->price * $product->pivot->amount;
+            }),
             'status' => 200,
         ]);
     }
@@ -47,6 +50,9 @@ class CartController extends Controller
 
         return response()->json([
             'cart' => $user->cart,
+            'total' => $user->cart->sum(function ($product) {
+                return $product->price * $product->pivot->amount;
+            }),
             'status' => 200,
         ]);
     }
@@ -69,6 +75,9 @@ class CartController extends Controller
             $user->cart()->detach(Product::findOrFail($request->input('product_id')));
             return response()->json([
                 'cart' => $user->cart,
+                'total' => $user->cart->sum(function ($product) {
+                return $product->price * $product->pivot->amount;
+            }),
                 'status' => 200,
             ]);
         }
@@ -86,6 +95,9 @@ class CartController extends Controller
 
         return response()->json([
             'cart' => $user->cart,
+           'total' => $user->cart->sum(function ($product) {
+                return $product->price * $product->pivot->amount;
+            }),
             'status' => 200,
         ]);
     }
@@ -114,6 +126,9 @@ class CartController extends Controller
 
         return response()->json([
             'cart' => $user->cart,
+            'total' => $user->cart->sum(function ($product) {
+                return $product->price * $product->pivot->amount;
+            }),
             'status' => 200,
         ]);
     }
@@ -134,6 +149,9 @@ class CartController extends Controller
 
         return response()->json([
             'cart' => $user->cart,
+            'total' => $user->cart->sum(function ($product) {
+                return $product->price * $product->pivot->amount;
+            }),
             'status' => 200,
         ]);
     }
