@@ -64,14 +64,17 @@
       </div> --}}
       <div class="block-content block-content-full">
         <!-- DataTables init on table by adding .js-dataTable-full class, functionality is initialized in js/pages/tables_datatables.js -->
-        <form method="post" action="{{ route('adm.products.update', ['product' => $product->id]) }}">
+        <form method="post" action="{{ route('adm.products.store') }}">
             @csrf
-            <x-forms.input type="text" name="name" label="Nom" placeholder="Nom du produit..." value="{{ $product->name }}" error="Le champ nom est requis" />
-            <x-forms.input type="textarea" name="description" label="Description" placeholder="Description du produit..." value="{{ $product->description }}" error="Le champ description est requis" />
-            <x-forms.input type="number" name="price" label="Prix" placeholder="999€" value="{{ $product->price }}" error="Le champ prix est requis" />
-            <x-forms.select name="category_id" label="Catégorie" :options="$categories" value="{{ $product->category_id }}" error="Le champ catégorie est requis" />
-            <x-forms.input type="number" name="quantity" label="Quantité" placeholder="100000" value="{{ $product->quantity }}" error="Le champ quantité est requis" />
-            <x-forms.input type="text" name="image" label="Image" placeholder="Image du produit..." value="{{ $product->image }}" error="Le champ image est requis" />
+
+            <x-forms.input type="text" name="name" label="Nom" placeholder="Nom du produit..." error="Le champ nom est requis" />
+            <x-forms.input type="textarea" name="description" label="Description" placeholder="Description du produit..." error="Le champ description est requis" />
+            <x-forms.input type="number" name="price" label="Prix" placeholder="999€" error="Le champ prix est requis" />
+            <x-forms.select name="category_id" label="Catégorie" :options="$categories" error="Le champ catégorie est requis" />
+            <x-forms.input type="number" name="quantity" label="Quantité" placeholder="100000" error="Le champ quantité est requis" />
+            <x-forms.input type="text" name="image" label="Image" placeholder="Image du produit..." error="Le champ image est requis" />
+
+
             <x-forms.button.submit />
         </form>
     </div>

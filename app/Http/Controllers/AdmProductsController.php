@@ -10,11 +10,6 @@ use Yajra\DataTables\DataTables;
 
 class AdmProductsController extends Controller
 {
-    // public function index()
-    // {
-    //     return view('pages.products.index');
-    // }
-
     public function index()
     {
         if (request()->ajax()) {
@@ -22,6 +17,9 @@ class AdmProductsController extends Controller
             return DataTables::of($query)
                 ->editColumn('created_at', function ($product) {
                     return Carbon::parse($product->created_at)->format('d/m/Y H:i:s');
+                })
+                ->editColumn('quantity', function ($product) {
+                    return number_format($product->quantity, 0, ',', ' ');
                 })
                 ->editColumn('price', function ($product) {
                     return $product->price . ' €';
@@ -43,6 +41,18 @@ class AdmProductsController extends Controller
     {
         $categories = Category::all();
         return view('pages.products.edit', compact('product', 'categories'));
+    }
+
+    public function create()
+    {
+        $categories = Category::all();
+        return view('pages.products.create', compact('categories'));
+    }
+
+    public function store(Request $request)
+    {
+        $product = Product::create($request->all());
+        return redirect()->route('adm.products.index')->with('success', 'Produit créé avec succès');
     }
 
     public function update(Product $product, Request $request)

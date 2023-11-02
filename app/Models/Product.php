@@ -31,13 +31,10 @@ class Product extends Model
         return $array;
     }
 
-
-
     protected $fillable = [
         "name",
         "description",
         "price",
-        "type",
         "quantity",
         "category_id",
         "image"

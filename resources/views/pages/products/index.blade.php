@@ -11,20 +11,6 @@
   <script src="{{ asset('js/lib/jquery.min.js') }}"></script>
   <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js" crossorigin="anonymous"
         referrerpolicy="no-referrer"></script>
-{{--
-  <!-- Page JS Plugins -->
-  <script src="{{ asset('js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-  <script src="{{ asset('js/plugins/datatables-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
-  <script src="{{ asset('js/plugins/datatables-buttons/dataTables.buttons.min.js') }}"></script>
-  <script src="{{ asset('js/plugins/datatables-buttons-bs5/js/buttons.bootstrap5.min.js') }}"></script>
-  <script src="{{ asset('js/plugins/datatables-buttons-jszip/jszip.min.js') }}"></script>
-  <script src="{{ asset('js/plugins/datatables-buttons-pdfmake/pdfmake.min.js') }}"></script>
-  <script src="{{ asset('js/plugins/datatables-buttons-pdfmake/vfs_fonts.js') }}"></script>
-  <script src="{{ asset('js/plugins/datatables-buttons/buttons.print.min.js') }}"></script>
-  <script src="{{ asset('js/plugins/datatables-buttons/buttons.html5.min.js') }}"></script> --}}
-
-  <!-- Page JS Code -->
-  {{-- @vite(['resources/js/pages/datatables.js']) --}}
 @endsection
 
 @section('content')
@@ -48,6 +34,8 @@
           </ol>
         </nav>
       </div>
+      <x-forms.button.create :route="route('adm.products.create')" />
+
     </div>
   </div>
   <!-- END Hero -->
@@ -77,22 +65,6 @@
               <th style="width: 15%;">Actions</th>
             </tr>
           </thead>
-          {{-- <tbody>
-            @for ($i = 1; $i < 21; $i++)
-              <tr>
-                <td class="text-center">{{ $i }}</td>
-                <td class="fw-semibold">
-                  <a href="javascript:void(0)">John Doe</a>
-                </td>
-                <td class="d-none d-sm-table-cell">
-                  client{{ $i }}<span class="text-muted">@example.com</span>
-                </td>
-                <td class="text-muted">
-                  {{ rand(2, 10) }} days ago
-                </td>
-              </tr>
-            @endfor
-          </tbody> --}}
         </table>
       </div>
     </div>
