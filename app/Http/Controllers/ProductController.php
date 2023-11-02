@@ -24,7 +24,7 @@ class ProductController extends Controller
         //     return Product::paginate($perPage, ['*'], 'page', $page);
         // });
 
-        $data = Product::with('category')->paginate($perPage, ['*'], 'page', $page);
+        $data = Product::search($request->input('search', ''))->paginate($perPage, '', intval($page));
 
         return response()->json([
             'data' => $data->items(), // Get the items for the current page

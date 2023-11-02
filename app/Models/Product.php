@@ -2,16 +2,35 @@
 
 namespace App\Models;
 
+use App\Models\Order;
+use Laravel\Scout\Searchable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use App\Models\Order;
 
 class Product extends Model
 {
     use HasFactory;
+    use Searchable;
+
+    public function searchableAs(): string
+    {
+        return 'products_index';
+    }
+
+    public function toSearchableArray()
+    {
+        $array = [
+            'name' => $this->name,
+            'description' => $this->description,
+        ];
+
+        return $array;
+    }
+
+
 
     protected $fillable = [
         "name",
