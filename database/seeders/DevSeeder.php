@@ -18,8 +18,6 @@ class DevSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create 10 categories
-        Category::factory(10)->create();
 
         // Create a 100 of products
         Product::factory(100)->create();

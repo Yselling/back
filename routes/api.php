@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\GenderController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProductController;
@@ -55,6 +56,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 });
 
+Route::group(['prefix' => 'categories'], function () {
+    Route::get('/', [CategoryController::class, 'index'])->name('categories.index');
+});
+
 // USER
 // modifier le profil user
 // supprimer son compte
@@ -66,4 +71,3 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 // ORDERS
 // voir ses commandes passées
-

@@ -19,7 +19,8 @@ class Product extends Model
         "price",
         "type",
         "quantity",
-        "category_id"
+        "category_id",
+        "image"
     ];
 
     protected $appends = [
