@@ -73,8 +73,8 @@
               <th style="width: 15%;">Quantity</th>
               <th style="width: 15%;">Category</th>
               <th style="width: 15%;">Sold</th>
+              <th style="width: 15%;">Créé le</th>
               <th style="width: 15%;">Actions</th>
-
             </tr>
           </thead>
           {{-- <tbody>
@@ -137,21 +137,11 @@
                     name: 'orders',
                     class: 'text-center font-size-sm'
                 },
-                // {
-                //     data: 'phone',
-                //     name: 'phone',
-                //     class: 'text-center font-size-sm'
-                // },
-                // {
-                //     data: 'created_at',
-                //     name: 'created_at',
-                //     class: 'text-center font-size-sm'
-                // },
-                // {
-                //     data: 'locked',
-                //     name: 'locked',
-                //     class: 'text-center font-size-sm'
-                // },
+                {
+                    data: 'created_at',
+                    name: 'created_at',
+                    class: 'text-center font-size-sm'
+                },
                 {
                     data: 'actions',
                     name: 'actions',

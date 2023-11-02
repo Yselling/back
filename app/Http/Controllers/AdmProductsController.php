@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -19,9 +20,9 @@ class AdmProductsController extends Controller
         if (request()->ajax()) {
             $query = Product::all();
             return DataTables::of($query)
-                // ->editColumn('created_at', function ($user) {
-                //     return Carbon::parse($user->created_at)->format('d/m/Y H:i:s');
-                // })
+                ->editColumn('created_at', function ($product) {
+                    return Carbon::parse($product->created_at)->format('d/m/Y H:i:s');
+                })
                 ->editColumn('price', function ($product) {
                     return $product->price . ' €';
                 })

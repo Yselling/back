@@ -24,8 +24,17 @@ class ProductController extends Controller
         //     return Product::paginate($perPage, ['*'], 'page', $page);
         // });
 
-        $data = Product::search($request->input('search', ''))
-        ->whereIn('category_id', $request->input('categories', []))->paginate($perPage, '', intval($page));
+        $categories = $request->input('categories', []);
+
+        if (count($categories) > 0) {
+            $data = Product::search($request->input('search', ''))
+            ->whereIn('category_id', $request->input('categories', []))
+            ->paginate($perPage, '', intval($page));
+        } else {
+            $data = Product::search($request->input('search', ''))
+            ->paginate($perPage, '', intval($page));
+        }
+
         $data->load('category');
 
         return response()->json([
