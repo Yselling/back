@@ -73,6 +73,8 @@
               <th style="width: 15%;">Quantity</th>
               <th style="width: 15%;">Category</th>
               <th style="width: 15%;">Sold</th>
+              <th style="width: 15%;">Actions</th>
+
             </tr>
           </thead>
           {{-- <tbody>
@@ -150,11 +152,11 @@
                 //     name: 'locked',
                 //     class: 'text-center font-size-sm'
                 // },
-                // {
-                //     data: 'actions',
-                //     name: 'actions',
-                //     class: 'text-center font-size-sm'
-                // },
+                {
+                    data: 'actions',
+                    name: 'actions',
+                    class: 'text-center font-size-sm'
+                },
             ],
             language: {
                 'url': 'https://cdn.datatables.net/plug-ins/1.10.21/i18n/French.json'
