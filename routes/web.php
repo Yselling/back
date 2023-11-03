@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\AdmProductsController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdmUsersController;
+use App\Http\Controllers\AdmProductsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +26,10 @@ Route::post('/products/{product}', [AdmProductsController::class, 'update'])->na
 Route::get('/products/create', [AdmProductsController::class, 'create'])->name('adm.products.create');
 Route::post('/products', [AdmProductsController::class, 'store'])->name('adm.products.store');
 Route::post('/products/upc', [AdmProductsController::class, 'addUpc'])->name('adm.products.add-upc');
+
+Route::get('/users', [AdmUsersController::class, 'index'])->name('adm.users.index');
+Route::get('/users/{user}/edit', [AdmUsersController::class, 'edit'])->name('adm.users.edit');
+Route::post('/users/{user}', [AdmUsersController::class, 'update'])->name('adm.users.update');
 
 // Route::delete('/products/{product}', [AdmProductsController::class, 'destroy'])->name('adm.products.destroy');
 
