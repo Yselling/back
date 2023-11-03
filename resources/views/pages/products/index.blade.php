@@ -34,7 +34,14 @@
           </ol>
         </nav>
       </div>
-      <x-forms.button.create :route="route('adm.products.create')" />
+      <hr>
+      <form method="post" action="{{ route('adm.products.add-upc') }}">
+        @csrf
+        <x-forms.input type="text" name="upc" label="UPC" placeholder="Code UPC..." error="Le champ UPC est requis" />
+        <x-forms.button.submit />
+    </form>
+    <hr>
+    <x-forms.button.create :route="route('adm.products.create')" />
 
     </div>
   </div>

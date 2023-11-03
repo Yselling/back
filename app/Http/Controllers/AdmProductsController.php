@@ -22,7 +22,7 @@ class AdmProductsController extends Controller
                     return number_format($product->quantity, 0, ',', ' ');
                 })
                 ->editColumn('price', function ($product) {
-                    return $product->price . ' €';
+                    return number_format($product->price, 0, ',', ' ') . ' €';
                 })
                 ->addColumn('category', function ($product) {
                     return $product->category->name;
