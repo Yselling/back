@@ -58,5 +58,70 @@
     </div>
     <!-- END Dynamic Table Full -->
   </div>
+  <div class="block block-rounded">
+    <div class="block-content block-content-full">
+        <p>Commandes</p>
+        <!-- DataTables init on table by adding .js-dataTable-full class, functionality is initialized in js/pages/tables_datatables.js -->
+        <table class="table table-bordered table-striped table-vcenter js-dataTable-full fs-sm" id="DataTables_orders">
+            <thead>
+              <tr>
+                <th class="text-center" style="width: 80px;">#</th>
+                <th>User</th>
+                <th>Products</th>
+                <th class="d-none d-sm-table-cell" style="width: 30%;">Status</th>
+                <th style="width: 15%;">Créé le</th>
+                <th style="width: 15%;">Actions</th>
+              </tr>
+            </thead>
+          </table>
+    </div>
+
+    <!-- END Dynamic Table Full -->
+</div>
   <!-- END Page Content -->
+
+  <script>
+    $(function() {
+        $('#DataTables_orders').DataTable({
+            stateSave: true,
+            processing: true,
+            serverSide: true,
+            ajax: '{{ route('adm.products.orders', $product->id) }}',
+            columns: [{
+                    data: 'id',
+                    name: 'id',
+                    class: 'text-center font-size-sm'
+                },
+                {
+                    data: 'user',
+                    name: 'user',
+                    class: 'text-center font-size-sm'
+                },
+                {
+                    data: 'products_number',
+                    name: 'products_number',
+                    class: 'text-center font-size-sm'
+                },
+                {
+                    data: 'status',
+                    name: 'status',
+                    class: 'text-center font-size-sm'
+                },
+                {
+                    data: 'created_at',
+                    name: 'created_at',
+                    class: 'text-center font-size-sm'
+                },
+                {
+                    data: 'actions',
+                    name: 'actions',
+                    class: 'text-center font-size-sm'
+                },
+            ],
+            language: {
+                'url': 'https://cdn.datatables.net/plug-ins/1.10.21/i18n/French.json'
+            },
+        });
+    });
+</script>
 @endsection

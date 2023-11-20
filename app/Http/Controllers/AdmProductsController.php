@@ -65,6 +65,27 @@ class AdmProductsController extends Controller
         return redirect()->route('adm.products.index')->with('success', 'Produit modifié avec succès');
     }
 
+    public function orders(Product $product)
+    {
+        $query = $product->orders;
+        return DataTables::of($query)
+            ->editColumn('created_at', function ($order) {
+                return Carbon::parse($order->created_at)->format('d/m/Y H:i:s');
+            })
+            ->addColumn('user', function ($order) {
+                return $order->user->email;
+            })
+            ->addColumn('products_number', function ($order) {
+                return $order->products->count();
+            })
+            ->addColumn('status', function ($order) {
+                return $order->orderState()->first()->name;
+            })
+            ->addColumn('actions', 'actions.users')
+            ->rawColumns(['actions'])
+            ->make(true);
+    }
+
     public function addUpc(Request $request)
     {
         $lang = 'fr';
