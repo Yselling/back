@@ -5,6 +5,7 @@ use App\Http\Controllers\AdmUsersController;
 use App\Http\Controllers\AdmProductsController;
 use App\Http\Controllers\AdmCategoriesController;
 use App\Http\Controllers\AdmGendersController;
+use App\Http\Controllers\AdmOrdersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +50,11 @@ Route::post('/genders', [AdmGendersController::class, 'store'])->name('adm.gende
 Route::get('/genders/{gender}/edit', [AdmGendersController::class, 'edit'])->name('adm.genders.edit');
 Route::post('/genders/{gender}', [AdmGendersController::class, 'update'])->name('adm.genders.update');
 Route::get('/genders/{gender}/users', [AdmGendersController::class, 'users'])->name('adm.genders.users');
+
+Route::get('/orders', [AdmOrdersController::class, 'index'])->name('adm.orders.index');
+Route::get('/orders/{order}/edit', [AdmOrdersController::class, 'edit'])->name('adm.orders.edit');
+Route::post('/orders/{order}', [AdmOrdersController::class, 'update'])->name('adm.orders.update');
+Route::get('/orders/{order}/users', [AdmOrdersController::class, 'products'])->name('adm.orders.products');
 
 
 

@@ -175,6 +175,12 @@
                                 <span class="nav-main-link-name">Genders</span>
                             </a>
                         </li>
+                        <li class="nav-main-item">
+                            <a class="nav-main-link{{ request()->is('orders/*') || request()->is('orders') ? ' active' : '' }}" href="/orders">
+                                <i class="nav-main-link-icon si si-cursor"></i>
+                                <span class="nav-main-link-name">Orders</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
                 <!-- END Side Navigation -->

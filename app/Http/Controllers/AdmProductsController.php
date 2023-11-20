@@ -81,7 +81,7 @@ class AdmProductsController extends Controller
             ->addColumn('status', function ($order) {
                 return $order->orderState()->first()->name;
             })
-            ->addColumn('actions', 'actions.users')
+            ->addColumn('actions', 'actions.orders')
             ->rawColumns(['actions'])
             ->make(true);
     }

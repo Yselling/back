@@ -58,7 +58,7 @@ class AdmUsersController extends Controller
             ->addColumn('status', function ($order) {
                 return $order->orderState()->first()->name;
             })
-            ->addColumn('actions', 'actions.users')
+            ->addColumn('actions', 'actions.orders')
             ->rawColumns(['actions'])
             ->make(true);
     }
@@ -73,8 +73,7 @@ class AdmUsersController extends Controller
             ->addColumn('amount', function ($product) {
                 return $product->pivot->amount;
             })
-            ->addColumn('actions', 'actions.users')
-            ->rawColumns(['actions'])
+
             ->make(true);
     }
 }

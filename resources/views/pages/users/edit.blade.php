@@ -91,7 +91,6 @@
                       <tr>
                         <th>Produit</th>
                         <th class="d-none d-sm-table-cell" style="width: 30%;">Quantité</th>
-                        <th style="width: 15%;">Actions</th>
                       </tr>
                     </thead>
                   </table>
@@ -155,11 +154,7 @@
                             name: 'amount',
                             class: 'text-center font-size-sm'
                         },
-                        {
-                            data: 'actions',
-                            name: 'actions',
-                            class: 'text-center font-size-sm'
-                        },
+
                     ],
                     language: {
                         'url': 'https://cdn.datatables.net/plug-ins/1.10.21/i18n/French.json'
