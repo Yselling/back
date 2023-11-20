@@ -53,8 +53,8 @@
         <form method="post" action="{{ route('adm.products.store') }}">
             @csrf
 
-            <x-forms.input type="text" name="name" label="Nom" placeholder="Nom du produit..." error="Le champ nom est requis" />
-            <x-forms.input type="textarea" name="description" label="Description" placeholder="Description du produit..." error="Le champ description est requis" />
+            <x-forms.input type="text" name="name" label="Nom" :value="$title" placeholder="Nom du produit..." error="Le champ nom est requis" />
+            <x-forms.input type="textarea" name="description" :value="$description" label="Description" placeholder="Description du produit..." error="Le champ description est requis" />
             <x-forms.input type="number" name="price" label="Prix" placeholder="999€" error="Le champ prix est requis" />
             <x-forms.select name="category_id" label="Catégorie" :options="$categories" error="Le champ catégorie est requis" />
             <x-forms.input type="number" name="quantity" label="Quantité" placeholder="100000" error="Le champ quantité est requis" />

@@ -25,7 +25,7 @@ Route::get('/products/{product}/edit', [AdmProductsController::class, 'edit'])->
 Route::post('/products/{product}', [AdmProductsController::class, 'update'])->name('adm.products.update');
 Route::get('/products/create', [AdmProductsController::class, 'create'])->name('adm.products.create');
 Route::post('/products', [AdmProductsController::class, 'store'])->name('adm.products.store');
-Route::post('/products/upc', [AdmProductsController::class, 'addUpc'])->name('adm.products.add-upc');
+Route::post('/test', [AdmProductsController::class, 'addUpc'])->name('adm.products.add-upc');
 
 Route::get('/users', [AdmUsersController::class, 'index'])->name('adm.users.index');
 Route::get('/users/{user}/edit', [AdmUsersController::class, 'edit'])->name('adm.users.edit');
