@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdmUsersController;
 use App\Http\Controllers\AdmProductsController;
+use App\Http\Controllers\AdmCategoriesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +18,7 @@ use App\Http\Controllers\AdmProductsController;
 
 
 // Example Routes
-Route::view('/dashboard', 'dashboard');
+Route::view('/', 'dashboard');
 
 // Admin Routes<
 Route::get('/products', [AdmProductsController::class, 'index'])->name('adm.products.index');
@@ -30,6 +31,25 @@ Route::post('/test', [AdmProductsController::class, 'addUpc'])->name('adm.produc
 Route::get('/users', [AdmUsersController::class, 'index'])->name('adm.users.index');
 Route::get('/users/{user}/edit', [AdmUsersController::class, 'edit'])->name('adm.users.edit');
 Route::post('/users/{user}', [AdmUsersController::class, 'update'])->name('adm.users.update');
+Route::get('/users/{user}/orders', [AdmUsersController::class, 'orders'])->name('adm.users.orders');
+Route::get('/users/{user}/cart', [AdmUsersController::class, 'cart'])->name('adm.users.cart');
+
+Route::get('/categories', [AdmCategoriesController::class, 'index'])->name('adm.categories.index');
+Route::get('/categories/create', [AdmCategoriesController::class, 'create'])->name('adm.categories.create');
+Route::post('/categories', [AdmCategoriesController::class, 'store'])->name('adm.categories.store');
+Route::get('/categories/{category}/edit', [AdmCategoriesController::class, 'edit'])->name('adm.categories.edit');
+Route::post('/categories/{category}', [AdmCategoriesController::class, 'update'])->name('adm.categories.update');
+Route::get('/categories/{category}/products', [AdmCategoriesController::class, 'products'])->name('adm.categories.products');
+
+
+
+
+
+
+
+
+
+
 
 // Route::delete('/products/{product}', [AdmProductsController::class, 'destroy'])->name('adm.products.destroy');
 

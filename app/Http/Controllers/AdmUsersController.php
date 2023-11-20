@@ -44,4 +44,37 @@ class AdmUsersController extends Controller
         $user->update($request->all());
         return redirect()->route('adm.users.index')->with('success', 'Utilisateur modifié avec succès');
     }
+
+    public function orders(User $user, Request $request)
+    {
+        $query = $user->orders()->get();
+        return DataTables::of($query)
+            ->editColumn('created_at', function ($order) {
+                return Carbon::parse($order->created_at)->format('d/m/Y H:i:s');
+            })
+            ->addColumn('products_number', function ($order) {
+                return $order->products->count();
+            })
+            ->addColumn('status', function ($order) {
+                return $order->orderState()->first()->name;
+            })
+            ->addColumn('actions', 'actions.users')
+            ->rawColumns(['actions'])
+            ->make(true);
+    }
+
+    public function cart(User $user, Request $request)
+    {
+        $query = $user->cart;
+        return DataTables::of($query)
+            ->editColumn('created_at', function ($product) {
+                return Carbon::parse($product->created_at)->format('d/m/Y H:i:s');
+            })
+            ->addColumn('amount', function ($product) {
+                return $product->pivot->amount;
+            })
+            ->addColumn('actions', 'actions.users')
+            ->rawColumns(['actions'])
+            ->make(true);
+    }
 }

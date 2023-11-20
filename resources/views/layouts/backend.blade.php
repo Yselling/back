@@ -145,7 +145,7 @@
                 <div class="content-side">
                     <ul class="nav-main">
                         <li class="nav-main-item">
-                            <a class="nav-main-link{{ request()->is('dashboard') ? ' active' : '' }}" href="/dashboard">
+                            <a class="nav-main-link{{ request()->is('/') ? ' active' : '' }}" href="/">
                                 <i class="nav-main-link-icon si si-cursor"></i>
                                 <span class="nav-main-link-name">Dashboard</span>
                             </a>
@@ -161,6 +161,12 @@
                             <a class="nav-main-link{{ request()->is('users/*') || request()->is('users') ? ' active' : '' }}" href="/users">
                                 <i class="nav-main-link-icon si si-cursor"></i>
                                 <span class="nav-main-link-name">Utilisateurs</span>
+                            </a>
+                        </li>
+                        <li class="nav-main-item">
+                            <a class="nav-main-link{{ request()->is('categories/*') || request()->is('categories') ? ' active' : '' }}" href="/categories">
+                                <i class="nav-main-link-icon si si-cursor"></i>
+                                <span class="nav-main-link-name">Categories</span>
                             </a>
                         </li>
                     </ul>
