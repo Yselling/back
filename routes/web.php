@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdmUsersController;
 use App\Http\Controllers\AdmProductsController;
 use App\Http\Controllers\AdmCategoriesController;
+use App\Http\Controllers\AdmGendersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +41,13 @@ Route::post('/categories', [AdmCategoriesController::class, 'store'])->name('adm
 Route::get('/categories/{category}/edit', [AdmCategoriesController::class, 'edit'])->name('adm.categories.edit');
 Route::post('/categories/{category}', [AdmCategoriesController::class, 'update'])->name('adm.categories.update');
 Route::get('/categories/{category}/products', [AdmCategoriesController::class, 'products'])->name('adm.categories.products');
+
+Route::get('/genders', [AdmGendersController::class, 'index'])->name('adm.genders.index');
+Route::get('/genders/create', [AdmGendersController::class, 'create'])->name('adm.genders.create');
+Route::post('/genders', [AdmGendersController::class, 'store'])->name('adm.genders.store');
+Route::get('/genders/{gender}/edit', [AdmGendersController::class, 'edit'])->name('adm.genders.edit');
+Route::post('/genders/{gender}', [AdmGendersController::class, 'update'])->name('adm.genders.update');
+Route::get('/genders/{gender}/users', [AdmGendersController::class, 'users'])->name('adm.genders.users');
 
 
 
