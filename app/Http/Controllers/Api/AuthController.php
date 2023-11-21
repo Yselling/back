@@ -105,7 +105,8 @@ class AuthController extends Controller
     public function me(Request $request) : JsonResponse
     {
         $user = User::where('id', $request->user()->id)
-            ->with('gender', 'role', 'cart')
+
+            ->with('gender', 'role', 'cart', 'orders', 'orders.orderState', 'orders.products')
             ->first();
 
         if ($user) {
