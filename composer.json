@@ -15,6 +15,7 @@
         "laravel/scout": "^10.5",
         "laravel/tinker": "^2.8",
         "meilisearch/meilisearch-php": "^1.4",
+        "stripe/stripe-php": "^13.3",
         "yajra/laravel-datatables-oracle": "^10.0"
     },
     "require-dev": {

@@ -1,13 +1,14 @@
 <?php
 
-use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\CartController;
-use App\Http\Controllers\Api\CategoryController;
-use App\Http\Controllers\Api\ContactController;
-use App\Http\Controllers\Api\GenderController;
-use App\Http\Controllers\Api\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CartController;
+use App\Http\Controllers\Api\GenderController;
+use App\Http\Controllers\Api\ContactController;
+use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\WebhookController;
+use App\Http\Controllers\Api\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,8 +54,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/decrement-product', [CartController::class, 'decrementProduct'])->name('carts.decrement-product');
         Route::post('/remove-product', [CartController::class, 'removeProduct'])->name('carts.remove-product');
         Route::delete('/empty', [CartController::class, 'empty'])->name('carts.empty');
+        Route::post('/checkout', [CartController::class, 'checkout'])->name('carts.checkout');
     });
 });
+Route::post('/stripe/webhook', [WebhookController::class, 'stripeWebhook'])->name('stripe.webhook');
 
 Route::group(['prefix' => 'categories'], function () {
     Route::get('/', [CategoryController::class, 'index'])->name('categories.index');
