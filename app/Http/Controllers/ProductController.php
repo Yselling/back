@@ -12,6 +12,11 @@ use App\Http\Resources\ProductResource;
 
 class ProductController extends Controller
 {
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function index(Request $request): JsonResponse
     {
         $cacheKey = 'products-index';
@@ -38,16 +43,20 @@ class ProductController extends Controller
         $data->load('category');
 
         return response()->json([
-            'data' => $data->items(), // Get the items for the current page
-            'count' => $data->total(), // Total count of products
-            'per_page' => $data->perPage(), // Number of items per page
-            'current_page' => $data->currentPage(), // Current page number
+            'data' => $data->items(),
+            'count' => $data->total(),
+            'per_page' => $data->perPage(),
+            'current_page' => $data->currentPage(),
             'message' => 'Success',
             'status' => 200,
         ]);
     }
 
-    public function show(Product $product)
+    /**
+     * @param Product $product
+     * @return JsonResponse
+     */
+    public function show(Product $product): JsonResponse
     {
         $product = $product->load('category');
         return response()->json([

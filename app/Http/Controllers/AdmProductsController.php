@@ -5,15 +5,28 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Product;
 use App\Models\Category;
+use Exception;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
+use JsonException;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Log;
 
 class AdmProductsController extends Controller
 {
-    public function index()
+    /**
+     * @return JsonResponse|View
+     * @throws Exception
+     */
+    public function index(): JsonResponse|View
     {
-        if (request()->ajax()) {
+        if (request()?->ajax()) {
             $query = Product::all();
             return DataTables::of($query)
                 ->editColumn('created_at', function ($product) {
@@ -38,34 +51,57 @@ class AdmProductsController extends Controller
         return view('pages.products.index');
     }
 
-    public function edit(Product $product)
+    /**
+     * @param Product $product
+     * @return View
+     */
+    public function edit(Product $product): View
     {
         $categories = Category::all();
         return view('pages.products.edit', compact('product', 'categories'));
     }
 
-    public function create(Request $request)
+    /**
+     * @param Request $request
+     * @return View
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    public function create(Request $request): View
     {
         $title = session()->get('title');
         $description = session()->get('description');
-
         $categories = Category::all();
         return view('pages.products.create', compact('categories', 'title', 'description'));
     }
 
-    public function store(Request $request)
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function store(Request $request): RedirectResponse
     {
         $product = Product::create($request->all());
         return redirect()->route('adm.products.index')->with('success', 'Produit créé avec succès');
     }
 
-    public function update(Product $product, Request $request)
+    /**
+     * @param Product $product
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function update(Product $product, Request $request): RedirectResponse
     {
         $product->update($request->all());
         return redirect()->route('adm.products.index')->with('success', 'Produit modifié avec succès');
     }
 
-    public function orders(Product $product)
+    /**
+     * @param Product $product
+     * @return JsonResponse
+     * @throws Exception
+     */
+    public function orders(Product $product): JsonResponse
     {
         $query = $product->orders;
         return DataTables::of($query)
@@ -86,17 +122,23 @@ class AdmProductsController extends Controller
             ->make(true);
     }
 
-    public function addUpc(Request $request)
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws GuzzleException
+     * @throws JsonException
+     */
+    public function addUpc(Request $request): RedirectResponse
     {
         $lang = 'fr';
         $gtin = $request->input('upc');
 
         $url = 'https://live.icecat.biz/api?shopname=openIcecat-live&lang=' . $lang . '&gtin=' . $gtin;
 
-        $client = new \GuzzleHttp\Client();
+        $client = new Client();
         $response = $client->request('GET', $url);
         $body = $response->getBody();
-        $data = json_decode($body, true);
+        $data = json_decode($body, true, 512, JSON_THROW_ON_ERROR);
         $title = $data['data']['GeneralInfo']['Title'];
         $description = $data['data']['GeneralInfo']['Description']['LongDesc'];
 
