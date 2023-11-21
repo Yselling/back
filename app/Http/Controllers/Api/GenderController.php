@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\GenderRequest;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\GenderResource;
 use App\Models\Gender;
 use Illuminate\Http\JsonResponse;

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Models\Cart;
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use Hash;
 use Illuminate\Http\JsonResponse;

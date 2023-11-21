@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use Carbon\Carbon;
-use App\Models\Product;
+use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Product;
+use Carbon\Carbon;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
@@ -16,7 +17,6 @@ use JsonException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Yajra\DataTables\DataTables;
-use Illuminate\Support\Facades\Log;
 
 class AdmProductsController extends Controller
 {

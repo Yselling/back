@@ -1,11 +1,11 @@
 <?php
 
+use App\Http\Controllers\Admin\AdmCategoriesController;
+use App\Http\Controllers\Admin\AdmGendersController;
+use App\Http\Controllers\Admin\AdmOrdersController;
+use App\Http\Controllers\Admin\AdmProductsController;
+use App\Http\Controllers\Admin\AdmUsersController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AdmUsersController;
-use App\Http\Controllers\AdmProductsController;
-use App\Http\Controllers\AdmCategoriesController;
-use App\Http\Controllers\AdmGendersController;
-use App\Http\Controllers\AdmOrdersController;
 
 /*
 |--------------------------------------------------------------------------
