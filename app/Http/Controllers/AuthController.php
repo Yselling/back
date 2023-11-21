@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function register(Request $request) : JsonResponse
     {
         $messages = [
@@ -53,6 +58,10 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function login(Request $request) : JsonResponse
     {
         $messages = [
@@ -89,6 +98,10 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function me(Request $request) : JsonResponse
     {
         $user = User::where('id', $request->user()->id)

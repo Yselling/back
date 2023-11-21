@@ -5,15 +5,24 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Product;
 use App\Models\Category;
+use Exception;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Log;
 
 class AdmCategoriesController extends Controller
 {
-    public function index()
+
+    /**
+     * @return View|JsonResponse
+     * @throws Exception
+     */
+    public function index(): View|JsonResponse
     {
-        if (request()->ajax()) {
+        if (request()?->ajax()) {
             $query = Category::all();
             return DataTables::of($query)
                 ->editColumn('created_at', function ($category) {
@@ -26,29 +35,51 @@ class AdmCategoriesController extends Controller
         return view('pages.categories.index');
     }
 
-    public function edit(Category $category)
+    /**
+     * @param Category $category
+     * @return View
+     */
+    public function edit(Category $category): View
     {
         return view('pages.categories.edit', compact('category'));
     }
 
-    public function create(Request $request)
+    /**
+     * @param Request $request
+     * @return View
+     */
+    public function create(Request $request): View
     {
         return view('pages.categories.create');
     }
 
-    public function store(Request $request)
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function store(Request $request): RedirectResponse
     {
         $category = Category::create($request->all());
         return redirect()->route('adm.categories.index')->with('success', 'Catégorie créé avec succès');
     }
 
-    public function update(Category $category, Request $request)
+    /**
+     * @param Category $category
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function update(Category $category, Request $request): RedirectResponse
     {
         $category->update($request->all());
         return redirect()->route('adm.categories.index')->with('success', 'Catégorie modifiée avec succès');
     }
 
-    public function products(Category $category)
+    /**
+     * @param Category $category
+     * @return JsonResponse
+     * @throws Exception
+     */
+    public function products(Category $category): JsonResponse
     {
             $query = $category->products()->get();
             return DataTables::of($query)

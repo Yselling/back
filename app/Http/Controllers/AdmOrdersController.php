@@ -7,15 +7,24 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\OrderState;
+use Exception;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Log;
 
 class AdmOrdersController extends Controller
 {
-    public function index()
+
+    /**
+     * @return View|JsonResponse
+     * @throws Exception
+     */
+    public function index(): View
     {
-        if (request()->ajax()) {
+        if (request()?->ajax()) {
             $query = Order::all();
             return DataTables::of($query)
                 ->editColumn('created_at', function ($category) {
@@ -37,19 +46,33 @@ class AdmOrdersController extends Controller
         return view('pages.orders.index');
     }
 
-    public function edit(Order $order)
+    /**
+     * @param Order $order
+     * @return View
+     */
+    public function edit(Order $order): View
     {
         $states = OrderState::all();
         return view('pages.orders.edit', compact('order', 'states'));
     }
 
-    public function update(Order $order, Request $request)
+    /**
+     * @param Order $order
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function update(Order $order, Request $request): RedirectResponse
     {
         $order->update($request->all());
         return redirect()->route('adm.orders.index')->with('success', 'Commande modifiée avec succès');
     }
 
-    public function products(Order $order)
+    /**
+     * @param Order $order
+     * @return JsonResponse
+     * @throws Exception
+     */
+    public function products(Order $order): JsonResponse
     {
             $query = $order->products()->get();
             return DataTables::of($query)

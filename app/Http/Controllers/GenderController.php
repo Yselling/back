@@ -5,13 +5,18 @@ namespace App\Http\Controllers;
 use App\Http\Requests\GenderRequest;
 use App\Http\Resources\GenderResource;
 use App\Models\Gender;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class GenderController extends Controller
 {
 
-    public function index(Request $request)
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function index(Request $request): JsonResponse
     {
         $cacheKey = 'genders-index';
 

@@ -7,14 +7,23 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\Gender;
 use App\Models\User;
+use Exception;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 use Yajra\DataTables\DataTables;
 
 class AdmUsersController extends Controller
 {
-    public function index()
+
+    /**
+     * @return View|JsonResponse
+     * @throws Exception
+     */
+    public function index(): View|JsonResponse
     {
-        if (request()->ajax()) {
+        if (request()?->ajax()) {
             $query = User::all();
             return DataTables::of($query)
                 ->editColumn('created_at', function ($user) {
@@ -33,19 +42,34 @@ class AdmUsersController extends Controller
         return view('pages.users.index');
     }
 
-    public function edit(User $user)
+    /**
+     * @param User $user
+     * @return View
+     */
+    public function edit(User $user): View
     {
         $genders = Gender::all();
         return view('pages.users.edit', compact('user', 'genders'));
     }
 
-    public function update(User $user, Request $request)
+    /**
+     * @param User $user
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function update(User $user, Request $request): RedirectResponse
     {
         $user->update($request->all());
         return redirect()->route('adm.users.index')->with('success', 'Utilisateur modifié avec succès');
     }
 
-    public function orders(User $user, Request $request)
+    /**
+     * @param User $user
+     * @param Request $request
+     * @return JsonResponse
+     * @throws Exception
+     */
+    public function orders(User $user, Request $request): JsonResponse
     {
         $query = $user->orders()->get();
         return DataTables::of($query)
@@ -63,7 +87,13 @@ class AdmUsersController extends Controller
             ->make(true);
     }
 
-    public function cart(User $user, Request $request)
+    /**
+     * @param User $user
+     * @param Request $request
+     * @return JsonResponse
+     * @throws Exception
+     */
+    public function cart(User $user, Request $request): JsonResponse
     {
         $query = $user->cart;
         return DataTables::of($query)
@@ -73,7 +103,6 @@ class AdmUsersController extends Controller
             ->addColumn('amount', function ($product) {
                 return $product->pivot->amount;
             })
-
             ->make(true);
     }
 }
