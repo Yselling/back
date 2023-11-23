@@ -221,8 +221,8 @@ class CartController extends Controller
                 'line_items' => $lineItems,
                 'mode' => 'payment',
                 'customer' => $customer->id,
-                'success_url' => 'http://localhost:3000/success',
-                'cancel_url' => 'http://localhost:3000/cancel',
+                'success_url' => $request->get('success_url'),
+                'cancel_url' => $request->get('cancel_url'),
             ]
         );
         return response()->json([
