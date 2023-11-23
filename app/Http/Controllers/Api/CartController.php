@@ -197,6 +197,7 @@ class CartController extends Controller
     {
         $user = auth()->user();
         Stripe::setApiKey(config('stripe.sk'));
+        $customer = $user->createOrGetStripeCustomer();
 
         $allItems = $user?->cart;
         $lineItems = [];
@@ -219,6 +220,7 @@ class CartController extends Controller
                 'payment_method_types' => ['card'],
                 'line_items' => $lineItems,
                 'mode' => 'payment',
+                'customer' => $customer->id,
                 'success_url' => 'http://localhost:3000/success',
                 'cancel_url' => 'http://localhost:3000/cancel',
             ]
@@ -226,8 +228,6 @@ class CartController extends Controller
         return response()->json([
             'status' => 200,
             'url' => $session->url,
-            'items' => $allItems,
-
         ]);
     }
 }

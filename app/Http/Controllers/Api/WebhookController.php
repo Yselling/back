@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Order;
+use App\Models\User;
+use Stripe\StripeClient;
 use Illuminate\Http\Request;
 use App\Services\PaymentService;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Config;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Config;
 
 class WebhookController extends Controller
 {
     public function stripeWebhook(Request $request)
     {
         $token = config('stripe.webhook');
-        Log::debug($token);
         try {
             $payload = @file_get_contents('php://input');
             $event = \Stripe\Webhook::constructEvent(
@@ -32,8 +34,20 @@ class WebhookController extends Controller
 
         switch ($event->type) {
             case 'checkout.session.completed':
+                $stripe = new StripeClient(config('stripe.sk'));
+
                 $session = $event->data->object;
-                Log::debug($session);
+                $user = User::where('stripe_id', $session->customer)->firstOrFail();
+                // create a transactrion to add an order to the user and empty the cart
+                $order = new Order();
+                $order->user()->associate($user);
+                $order->orderState()->associate(2);
+                $order->save();
+                foreach ($user->cart()->get() as $product) {
+                    Log::debug($product);
+                    $order->products()->attach($product, ['amount' => $product->pivot->amount, 'order_id' => $order->id]);
+                }
+                $user->cart()->detach();
                 break;
             default:
                 echo 'Received unknown event type ' . $event->type;
