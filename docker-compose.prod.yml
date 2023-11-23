@@ -1,0 +1,65 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: laravel-app
+    container_name: laravel-app
+    restart: unless-stopped
+    working_dir: /var/www/html
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/var/www/html
+    environment:
+      - APP_ENV=production
+      - APP_DEBUG=false
+      # Add other Laravel environment variables here
+    networks:
+      - app-network
+
+  mariadb:
+    image: mariadb:10
+    container_name: mariadb
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: your_db_name
+      MYSQL_USER: your_db_user
+      MYSQL_PASSWORD: your_db_password
+      MYSQL_ROOT_PASSWORD: your_root_password
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - app-network
+
+  meilisearch:
+    image: getmeili/meilisearch:latest
+    container_name: meilisearch
+    restart: unless-stopped
+    volumes:
+      - meilisearch_data:/data.ms
+    networks:
+      - app-network
+
+  npm:
+    image: node:latest
+    container_name: npm
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html
+    command: ["npm", "install"]
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  db_data:
+  meilisearch_data:
