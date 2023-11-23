@@ -206,7 +206,7 @@ class CartController extends Controller
             $lineItems[] = [
                 'price_data' => [
                     'currency' => 'eur',
-                    'unit_amount' => $item->price * $item->pivot->amount,
+                    'unit_amount' => ($item->price * 100) * $item->pivot->amount,
                     'product_data' => [
                         'name' => $item->name,
                     ],
