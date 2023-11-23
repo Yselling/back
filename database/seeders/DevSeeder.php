@@ -20,7 +20,10 @@ class DevSeeder extends Seeder
     {
 
         // Create a 100 of products
-        Product::factory(100)->create();
+        Product::factory(100)->create()->each(function ($product) {
+            $product->category()->associate(Category::inRandomOrder()->first());
+            $product->medias()->saveMany(Media::factory()->count(rand(1, 5))->make());
+        });
 
         User::factory()->create([
             'email' => 'user1@email.com',
@@ -55,14 +58,6 @@ class DevSeeder extends Seeder
                 ['amount' => rand(1, 10)]
             );
         });
-
-
-        // Create 100 products, and each product belongs to a category, and has 1-5 images
-        Product::factory(100)->create()->each(function ($product) {
-            $product->category()->associate(Category::inRandomOrder()->first());
-            $product->medias()->saveMany(Media::factory()->count(rand(1, 5))->make());
-        });
-
 
 
         // For each cart, create 1-10 Order records, but only one Order should have a status of 'clear', and the rest should be 'paid'

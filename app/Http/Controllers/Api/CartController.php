@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use Stripe\Stripe;
 use App\Models\Product;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Stripe\Checkout\Session;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
 class CartController extends Controller
@@ -186,4 +189,45 @@ class CartController extends Controller
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function checkout(Request $request): JsonResponse
+    {
+        $user = auth()->user();
+        Stripe::setApiKey(config('stripe.sk'));
+        $customer = $user->createOrGetStripeCustomer();
+
+        $allItems = $user?->cart;
+        $lineItems = [];
+        foreach ($allItems as $item) {
+            // add the product to the line items array
+            $lineItems[] = [
+                'price_data' => [
+                    'currency' => 'eur',
+                    'unit_amount' => $item->price * $item->pivot->amount,
+                    'product_data' => [
+                        'name' => $item->name,
+                    ],
+                ],
+                'quantity' => $item->pivot->amount,
+            ];
+        }
+
+        $session = Session::create(
+            [
+                'payment_method_types' => ['card'],
+                'line_items' => $lineItems,
+                'mode' => 'payment',
+                'customer' => $customer->id,
+                'success_url' => 'http://localhost:3000/success',
+                'cancel_url' => 'http://localhost:3000/cancel',
+            ]
+        );
+        return response()->json([
+            'status' => 200,
+            'url' => $session->url,
+        ]);
+    }
 }

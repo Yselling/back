@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Order;
 use App\Models\Product;
+use Stripe\StripeClient;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -24,6 +25,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'stripe_id',
         'first_name',
         'last_name',
         'email',
@@ -52,14 +54,25 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    // /**
-    //  * Return the cart for this user.
-    //  * @return HasOne
-    //  */
-    // public function cart(): HasOne
-    // {
-    //     return $this->hasOne(Cart::class);
-    // }
+    public function createOrGetStripeCustomer()
+    {
+        $stripe = new StripeClient(config('stripe.sk'));
+
+        if ($this->stripe_id !== null) {
+            return $stripe->customers->retrieve(
+                $this->stripe_id,
+                ['expand' => []]
+            );
+        }
+        $customer = $stripe->customers->create([
+            'name' => $this->first_name . " " . $this->last_name,
+            'email' => $this->email
+        ]);
+        $this->stripe_id = $customer->id;
+        $this->save();
+
+        return $customer;
+    }
 
     public function gender(): BelongsTo
     {
