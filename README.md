@@ -1,5 +1,5 @@
 
-# Backlink shield
+# Yselling ⚡
 
 An app to manage backlinks, check indexaction, etc
 
@@ -60,6 +60,12 @@ Run the stripe webhook
 
 ```bash
   stripe listen --forward-to http://localhost/stripe/webhook
+```
+
+Seed the database
+
+```bash
+  sail artisan migrate:fresh --seed
 ```
 
 ## Deployment
@@ -214,6 +220,10 @@ Cache the config, the route, and the view for better performances
 ```bash
   php artisan config:cache && php artisan route:cache && php artisan view:cache && php artisan optimize
 ```
+
+# Api Documention
+
+Go on http://localhost/docs/api
 
 ## Tech Stack
 
