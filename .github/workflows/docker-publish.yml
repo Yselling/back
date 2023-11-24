@@ -20,7 +20,7 @@ jobs:
           password: DRC_gzn6cjr*vht4exa
 
       - name: Build the Docker image
-        run: docker-compose -f docker-compose.prod.yaml build
+        run: docker-compose -f docker-compose.prod.yml build
 
       - name: Push the Docker image
-        run: docker-compose -f docker-compose.prod.yaml push
+        run: docker-compose -f docker-compose.prod.yml push
