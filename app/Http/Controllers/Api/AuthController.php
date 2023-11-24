@@ -58,23 +58,18 @@ class AuthController extends Controller
         ]);
     }
 
-    /**
-     * @param Request $request
-     * @return JsonResponse
-     */
     public function login(Request $request) : JsonResponse
     {
-        $messages = [
-            'email.required' => __('lang.email.required'),
-            'email.email' => __('lang.email.email'),
-            'password.required' => __('lang.password.required'),
-            'password.min' => __('lang.password.min'),
-        ];
-
         $validator = Validator::make($request->all(), [
+            /**
+             * @example user1@email.com
+             */
             'email' => 'required|email',
+            /**
+             * @example password
+             */
             'password' => 'required|min:8',
-        ], $messages);
+        ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
