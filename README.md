@@ -62,6 +62,12 @@ Run the stripe webhook
   stripe listen --forward-to http://localhost/stripe/webhook
 ```
 
+Seed the database
+
+```bash
+  sail artisan migrate:fresh --seed
+```
+
 ## Deployment
 
 To deploy this project, you will need a debian server. 
