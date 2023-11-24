@@ -1,67 +1,226 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# Backlink shield
 
-## About Laravel
+An app to manage backlinks, check indexaction, etc
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Environment Variables
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+To run this project, you will need to add the following environment variables to your .env file
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+`STRIPE_PK`
 
-## Learning Laravel
+`STRIPE_SK`
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+`STRIPE_WEBHOOK`
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Run Locally
 
-## Laravel Sponsors
+To run the project locally, you will need docker installed and running on your PC. Then you can : 
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Clone the project
 
-### Premium Partners
+```bash
+  git clone git@github.com:Yselling/back.git
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+Go to the project directory
 
-## Contributing
+```bash
+  cd back
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Install composer dependencies
 
-## Code of Conduct
+```bash
+  docker run --rm --interactive --tty \
+  --volume $PWD:/app \
+  composer install --ignore-platform-req
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Start Sail
 
-## Security Vulnerabilities
+```bash
+  ./vendor/bin/sail up  
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Install npm dependencies
 
-## License
+```bash
+  sail npm i
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-# back
+Run npm
+
+```bash
+  sail npm run dev
+```
+
+Run the stripe webhook
+
+```bash
+  stripe listen --forward-to http://localhost/stripe/webhook
+```
+
+## Deployment
+
+To deploy this project, you will need a debian server. 
+
+First of all, install all the needed packages (nginx, php, composer, npm, etc)
+
+```bash
+  sudo apt-get update && sudo apt-get upgrade
+  sudo apt install lsb-release apt-transport-https ca-certificates software-properties-common -y
+  wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
+  sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
+  sudo apt update
+  sudo apt install php8.2 php8.2-{cli,zip,mysql,bz2,curl,mbstring,intl,common,xml} php8.2-fpm nginx composer mariadb-server curl -y
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+  source ~/.bashrc
+  nvm install node
+```
+
+Then you can finish the setup of mysql with 
+
+```bash
+  sudo mysql_secure_installation
+```
+
+You can now enter mysql to finish the setup
+
+```bash
+  mysql
+```
+
+```sql
+  CREATE DATABASE yselling;
+  CREATE USER 'laravel'@'%' IDENTIFIED BY 'password';
+  GRANT ALL ON yselling.* TO 'laravel'@'%';
+  quit
+```
+
+Check if you can access mysql with the created user 
+
+```bash
+  mysql -u laravel -p
+```
+
+Now, stop apache2 if it is running and present on the server 
+
+```bash
+  systemctl stop apache2
+```
+
+Create a ssh key for the server and retrieve it
+
+```bash
+  ssh-keygen
+  cat ~/.ssh/id_rsa.pub
+```
+
+Copy the ssh key and add it as a deploy key in your github project settings
+
+Clone the project
+
+```bash
+  git clone git@github.com:Yselling/back.git /var/www/yselling.fr
+```
+
+Transfer the ownership of the folder 
+
+```bash
+  sudo chown $USER:$USER /var/www/yselling.fr/
+```
+
+Add a config file `/etc/nginx/sites-available/yselling.fr` for the nginix server 
+
+```bash
+server {
+    server_name app.backlink-shield.com;
+    root /var/www/yselling.fr/public;
+
+    add_header X-Frame-Options "SAMEORIGIN";
+    add_header X-Content-Type-Options "nosniff";
+
+    index index.php;
+
+    charset utf-8;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
+
+    error_page 404 /index.php;
+
+    location ~ \.php$ {
+        fastcgi_pass unix:/var/run/php/php8.2-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    location ~ /\.(?!well-known).* {
+        deny all;
+    }
+}
+```
+
+Create a link between your config file and the nginx sites
+
+```bash
+  sudo ln -s /etc/nginx/sites-available/yselling.fr /etc/nginx/sites-enabled/
+```
+
+Restart nginx 
+
+```bash
+  sudo systemctl reload nginx
+```
+
+Go to the project folder and install the dependencies 
+
+```bash
+  cd /var/www/yselling.fr
+  composer install
+  npm install
+```
+
+Build the assets
+
+```bash 
+  npm run build
+```
+
+Migrate the database 
+
+```bash 
+  php artisan migrate:fresh
+```
+
+Seed the database
+
+```bash 
+  php artisan db:seed --class=GenderSeeder
+  php artisan db:seed --class=RoleSeeder
+  php artisan db:seed --class=CategorySeeder
+  php artisan db:seed --class=OrderStatesSeeder
+
+```
+
+Cache the config, the route, and the view for better performances
+
+```bash
+  php artisan config:cache && php artisan route:cache && php artisan view:cache && php artisan optimize
+```
+
+## Tech Stack
+
+**Server:** Laravel
+
+
+## Authors
+
+- [@romainsilvy](https://www.github.com/romainsilvy) - [@Ayatooo](https://github.com/Ayatooo)
+
