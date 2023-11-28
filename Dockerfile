@@ -22,6 +22,7 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-av
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
 RUN composer install --prefer-dist
+RUN touch .env
 RUN php artisan key:generate
 RUN php artisan route:cache
 RUN php artisan view:cache
