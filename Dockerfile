@@ -9,7 +9,7 @@ RUN apt-get update \
         zip \
         unzip \
         wget \
-        gnupg2 \
+        gnupg2
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash \
