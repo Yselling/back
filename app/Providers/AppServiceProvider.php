@@ -2,10 +2,11 @@
 
 namespace App\Providers;
 
+use URL;
 use Dedoc\Scramble\Scramble;
+use Illuminate\Support\ServiceProvider;
 use Dedoc\Scramble\Support\Generator\OpenApi;
 use Dedoc\Scramble\Support\Generator\SecurityScheme;
-use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,6 +23,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if($this->app->environment('production')) {
+            URL::forceScheme('https');
+        }
         Scramble::extendOpenApi(static function (OpenApi $openApi) {
             $openApi->secure(
                 SecurityScheme::http('bearer', 'bearer')
