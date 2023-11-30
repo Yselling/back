@@ -12,10 +12,6 @@ RUN apt-get update \
         gnupg2
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-RUN wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash \
-    && export NVM_DIR="/root/.nvm" \
-    && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
-    && nvm install node
 
 COPY . /var/www/html
 
@@ -35,4 +31,7 @@ RUN php artisan route:cache
 RUN php artisan view:cache
 RUN php artisan optimize
 RUN php artisan config:cache
-RUN npm install && npm run build
+RUN wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash \
+    && export NVM_DIR="/root/.nvm" \
+    && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
+    && nvm install node && npm install && npm run build
