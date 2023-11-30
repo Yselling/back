@@ -26,11 +26,6 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.
 RUN composer install --prefer-dist
 RUN touch .env
 RUN echo "APP_KEY=" >> .env
-RUN php artisan key:generate
-RUN php artisan route:cache
-RUN php artisan view:cache
-RUN php artisan optimize
-RUN php artisan config:cache
 RUN wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash \
     && export NVM_DIR="/root/.nvm" \
     && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \

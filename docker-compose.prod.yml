@@ -2,24 +2,23 @@ version: '3'
 
 services:
   app:
-    image: rsilvy06/yselling-back:main
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: laravel-app
     container_name: laravel-app
     restart: unless-stopped
     working_dir: /var/www/html
     ports:
-      - "90:80"
-
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.dashy.rule=Host(`laravel.silvy-leligois.fr`)"
-      - "traefik.http.routers.dashy.entrypoints=websecure"
-      - "traefik.http.routers.dashy.tls.certresolver=leresolver"
+      - "80:80"
+    volumes:
+      - ./:/var/www/html
     environment:
       - APP_ENV=production
       - APP_DEBUG=false
       # Add other Laravel environment variables here
     networks:
-      - traefik
+      - app-network
 
   mariadb:
     image: mariadb:10
@@ -34,6 +33,8 @@ services:
       MYSQL_ROOT_PASSWORD: your_root_password
     volumes:
       - db_data:/var/lib/mysql
+    networks:
+      - app-network
 
   meilisearch:
     image: getmeili/meilisearch:latest
@@ -41,6 +42,8 @@ services:
     restart: unless-stopped
     volumes:
       - meilisearch_data:/data.ms
+    networks:
+      - app-network
 
   npm:
     image: node:latest
@@ -50,10 +53,12 @@ services:
     volumes:
       - .:/var/www/html
     command: ["npm", "install"]
+    networks:
+      - app-network
 
 networks:
-  traefik:
-    external: true
+  app-network:
+    driver: bridge
 
 volumes:
   db_data:
