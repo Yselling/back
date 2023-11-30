@@ -10,6 +10,8 @@ RUN apt-get update \
         unzip
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash -
+RUN apt-get update && apt-get install -y nodejs
 
 COPY . /var/www/html
 
@@ -29,3 +31,4 @@ RUN php artisan route:cache
 RUN php artisan view:cache
 RUN php artisan optimize
 RUN php artisan config:cache
+RUN npm install && npm run build
